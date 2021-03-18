@@ -1,0 +1,4 @@
+administer os2forms cpr lookup configuration:
+  title: 'Administer OS2Forms Cpr Lookup configuration'
+  description: 'Permission for administrating the OS2Forms Cpr Lookup configuration.'
+  restrict access: TRUE

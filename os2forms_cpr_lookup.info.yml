@@ -1,0 +1,6 @@
+name: OS2Forms CPR Lookup
+type: module
+description: Provides integration to CPR service provided by Serviceplatformen.
+package: OS2Forms
+core: 8.x
+core_version_requirement: ^8 || ^9
