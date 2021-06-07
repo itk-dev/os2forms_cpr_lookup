@@ -70,7 +70,7 @@ class CprElement extends Textfield
       $result = $cprService->search($cpr);
     } catch (NoPnrFoundException $e) {
       $response = new AjaxResponse();
-      $command = new MessageCommand(t('Not a valid CPR number.'), null, ['type' => 'error']);
+      $command = new MessageCommand($this->t('Not a valid CPR number.'), null, ['type' => 'error']);
       $response->addCommand($command);
       return $response;
     }
