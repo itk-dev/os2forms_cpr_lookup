@@ -14,6 +14,8 @@ use Drupal\Core\Render\Element\Ajax;
 use Drupal\Core\Render\Element\Textfield;
 use Drupal\os2forms_cpr_lookup\CPR\CprServiceResult;
 use Drupal\os2forms_cpr_lookup\Service\CprService;
+use ItkDev\Serviceplatformen\Service\Exception\NoPnrFoundException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @FormElement("cpr_element")
@@ -64,7 +66,14 @@ class CprElement extends Textfield
     /** @var CprService $cprService */
     $cprService = \Drupal::service('os2forms_cpr_lookup.service');
 
-    $result = $cprService->search($cpr);
+    try {
+      $result = $cprService->search($cpr);
+    } catch (NoPnrFoundException $e) {
+      $response = new AjaxResponse();
+      $command = new MessageCommand($this->t('Not a valid CPR number.'), null, ['type' => 'error']);
+      $response->addCommand($command);
+      return $response;
+    }
 
     $response = new AjaxResponse();
 
