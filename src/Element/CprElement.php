@@ -27,7 +27,7 @@ class CprElement extends Textfield
    */
   public function getInfo() {
     $element = parent::getInfo();
-    $element['#element_validate'] = ['::validate'];
+    $element['#element_validate'] = [[$this, 'validate']];
     $element['#ajax'] = [
       'callback' => [$this, 'ajaxCallback'],
       'event' => 'change',
