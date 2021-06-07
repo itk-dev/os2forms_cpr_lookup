@@ -54,13 +54,11 @@ class CprElement extends Textfield
     $cprNumberElement = $form_state->getTriggeringElement();
     $cpr = $cprNumberElement['#value'];
 
-    if ($cpr !== '') {
-      if (!preg_match('{^\d{10}$}', $cpr)) {
-        $response = new AjaxResponse();
-        $command = new MessageCommand(t('Not a valid CPR number.'), null, ['type' => 'error']);
-        $response->addCommand($command);
-        return $response;
-      }
+    if (!preg_match('{^\d{10}$}', $cpr)) {
+      $response = new AjaxResponse();
+      $command = new MessageCommand(t('Not a valid CPR number.'), null, ['type' => 'error']);
+      $response->addCommand($command);
+      return $response;
     }
 
     /** @var CprService $cprService */
