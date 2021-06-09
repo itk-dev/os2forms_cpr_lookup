@@ -7,8 +7,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 /**
  * Class CprServiceResult.
  */
-class CprServiceResult
-{
+class CprServiceResult {
   private $response;
   private $propertyAccessor;
 
@@ -17,8 +16,7 @@ class CprServiceResult
    *
    * @param $response
    */
-  public function __construct($response)
-  {
+  public function __construct($response) {
     $this->response = $response;
 
     $this->propertyAccessor = PropertyAccess::createPropertyAccessor();
@@ -29,8 +27,7 @@ class CprServiceResult
    *
    * @return string
    */
-  public function getFirstName(): string
-  {
+  public function getFirstName(): string {
     return $this->getProperty('persondata.navn.fornavn');
   }
 
@@ -39,11 +36,10 @@ class CprServiceResult
    *
    * @return string|null
    */
-  public function getMiddleName(): ?string
-  {
+  public function getMiddleName(): ?string {
     return $this->propertyAccessor->isReadable($this->response, 'persondata.navn.mellemnavn')
       ? $this->propertyAccessor->getValue($this->response, 'persondata.navn.mellemnavn')
-      : null;
+      : NULL;
   }
 
   /**
@@ -51,8 +47,7 @@ class CprServiceResult
    *
    * @return string
    */
-  public function getLastName(): string
-  {
+  public function getLastName(): string {
     return $this->getProperty('persondata.navn.efternavn');
   }
 
@@ -61,8 +56,7 @@ class CprServiceResult
    *
    * @return string
    */
-  public function getStreetName(): string
-  {
+  public function getStreetName(): string {
     return $this->getProperty('adresse.aktuelAdresse.vejnavn');
   }
 
@@ -71,8 +65,7 @@ class CprServiceResult
    *
    * @return string
    */
-  public function getHouseNumber(): ?string
-  {
+  public function getHouseNumber(): ?string {
     return $this->getProperty('adresse.aktuelAdresse.husnummer');
   }
 
@@ -81,11 +74,10 @@ class CprServiceResult
    *
    * @return string|null
    */
-  public function getFloor(): ?string
-  {
+  public function getFloor(): ?string {
     return $this->propertyAccessor->isReadable($this->response, 'adresse.aktuelAdresse.etage')
       ? $this->propertyAccessor->getValue($this->response, 'adresse.aktuelAdresse.etage')
-      : null;
+      : NULL;
   }
 
   /**
@@ -93,11 +85,10 @@ class CprServiceResult
    *
    * @return string|null
    */
-  public function getSide(): ?string
-  {
+  public function getSide(): ?string {
     return $this->propertyAccessor->isReadable($this->response, 'adresse.aktuelAdresse.sidedoer')
       ? $this->propertyAccessor->getValue($this->response, 'adresse.aktuelAdresse.sidedoer')
-      : null;
+      : NULL;
   }
 
   /**
@@ -105,8 +96,7 @@ class CprServiceResult
    *
    * @return string
    */
-  public function getPostalCode(): string
-  {
+  public function getPostalCode(): string {
     return $this->getProperty('adresse.aktuelAdresse.postnummer');
   }
 
@@ -115,22 +105,22 @@ class CprServiceResult
    *
    * @return string|null
    */
-  public function getCity(): string
-  {
+  public function getCity(): string {
     return $this->getProperty('adresse.aktuelAdresse.postdistrikt');
   }
 
   /**
    * Returns the value of the property if it exists otherwise it returns an empty string.
    *
-   * @param string $property name of property
+   * @param string $property
+   *   name of property.
    *
    * @return string
    */
-  private function getProperty(string $property): string
-  {
+  private function getProperty(string $property): string {
     return $this->propertyAccessor->isReadable($this->response, $property)
       ? $this->propertyAccessor->getValue($this->response, $property)
       : '';
   }
+
 }
