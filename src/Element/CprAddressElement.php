@@ -10,7 +10,7 @@ use Drupal\Core\Render\Element\Textfield;
 class CprAddressElement extends Textfield {
 
   /**
-   *
+   * {@inheritDoc}
    */
   public static function preRenderTextfield($element) {
     $element = parent::preRenderTextfield($element);

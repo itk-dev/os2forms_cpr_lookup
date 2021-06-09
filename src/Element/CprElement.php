@@ -34,7 +34,7 @@ class CprElement extends Textfield {
   }
 
   /**
-   *
+   * Validation.
    */
   public function validate(&$element, FormStateInterface $form_state, &$complete_form) {
     if ($element['#value'] !== '') {
@@ -45,7 +45,7 @@ class CprElement extends Textfield {
   }
 
   /**
-   *
+   * Call back method when performing ajax request.
    */
   public function ajaxCallback(array &$form, FormStateInterface $form_state) {
 
@@ -88,7 +88,7 @@ class CprElement extends Textfield {
   }
 
   /**
-   *
+   * Get name invoke command.
    */
   private function getNameInvokeCommand($result) {
     $selector = '.cpr-name';
@@ -99,7 +99,7 @@ class CprElement extends Textfield {
   }
 
   /**
-   *
+   * Get address invoke command.
    */
   private function getAddressInvokeCommand($result) {
     $selector = '.cpr-address';
@@ -110,7 +110,7 @@ class CprElement extends Textfield {
   }
 
   /**
-   *
+   * Generates name string.
    */
   private function generateNameString(CprServiceResult $result): string {
     $name = $result->getFirstName();
@@ -123,7 +123,7 @@ class CprElement extends Textfield {
   }
 
   /**
-   *
+   * Generates address string.
    */
   private function generateAddressString(CprServiceResult $result): string {
     $address = $result->getStreetName();

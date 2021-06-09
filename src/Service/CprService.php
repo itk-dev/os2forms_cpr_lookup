@@ -12,13 +12,19 @@ use ItkDev\Serviceplatformen\Request\InvocationContextRequestGenerator;
 use ItkDev\Serviceplatformen\Service\PersonBaseDataExtendedService;
 
 /**
- *
+ * CPR Service.
  */
 class CprService {
+
+  /**
+   * PersonBaseDataExtendedService.
+   *
+   * @var \ItkDev\Serviceplatformen\Service\PersonBaseDataExtendedService
+   */
   private $personBaseDataExtendedService;
 
   /**
-   *
+   * Constructor.
    */
   public function __construct() {
     $guzzleClient = \Drupal::httpClient();
@@ -71,9 +77,17 @@ class CprService {
   }
 
   /**
+   * Performs a call on the Person Base Data Extended service.
    *
+   * @param string $cpr
+   *   The CPR number to search for.
+   *
+   * @return \Drupal\os2forms_cpr_lookup\CPR\CprServiceResult
+   *   The CPR Service Result.
+   *
+   * @throws \ItkDev\Serviceplatformen\Service\Exception\ServiceException
    */
-  public function search(string $cpr) {
+  public function search(string $cpr): CprServiceResult {
     $response = $this->personBaseDataExtendedService->personLookup($cpr);
     return new CprServiceResult($response);
   }
