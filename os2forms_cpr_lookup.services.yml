@@ -1,0 +1,4 @@
+services:
+  os2forms_cpr_lookup.service:
+    class: Drupal\os2forms_cpr_lookup\Service\CprService
+    arguments: ["@http_client", "@config.factory"]

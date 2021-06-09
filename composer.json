@@ -1,0 +1,25 @@
+{
+    "name": "itk-dev/os2forms-cpr-lookup",
+    "description": "Provides integration to CPR service provided by Serviceplatformen.",
+    "type": "drupal-module",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lars Steen Risom",
+            "email": "lats@aarhus.dk"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "ext-soap": "*",
+        "itk-dev/serviceplatformen": "^1.0",
+        "php-http/guzzle6-adapter": "^2.0.1",
+        "http-interop/http-factory-guzzle": "^1.0.0",
+        "symfony/property-access": "^4.4"
+    },
+    "require-dev": {
+        "drupal/coder": "^8.3",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1"
+    }
+}
