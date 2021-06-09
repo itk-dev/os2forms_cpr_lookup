@@ -47,3 +47,9 @@ The elements provided:
 * CPR Element - Element which queries the Danish CPR register when changed.
 * CPR Name Element - This is populated with the name from the above mentioned query result.
 * CPR Address Element - This is populated with the address from the above mentioned query result.
+
+## Coding standards
+
+```shell
+./vendor/bin/phpcs --standard=Drupal --extensions=php,module,inc,install,test,profile,theme,css,info,txt,md,yml .
+```
