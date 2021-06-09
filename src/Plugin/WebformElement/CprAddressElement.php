@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Drupal\os2forms_cpr_lookup\Plugin\WebformElement;
 
 use Drupal\webform\Plugin\WebformElement\TextField;
@@ -13,7 +12,6 @@ use Drupal\webform\Plugin\WebformElement\TextField;
  *   category = "CPR elements"
  * )
  */
-class CprAddressElement extends TextField
-{
+class CprAddressElement extends TextField {
 
 }

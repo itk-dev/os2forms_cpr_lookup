@@ -13,10 +13,21 @@ use ItkDev\Serviceplatformen\Certificate\AzureKeyVaultCertificateLocator;
 use ItkDev\Serviceplatformen\Request\InvocationContextRequestGenerator;
 use ItkDev\Serviceplatformen\Service\PersonBaseDataExtendedService;
 
-class CprService
-{
+/**
+ * CPR Service.
+ */
+class CprService {
+
+  /**
+   * PersonBaseDataExtendedService.
+   *
+   * @var \ItkDev\Serviceplatformen\Service\PersonBaseDataExtendedService
+   */
   private $personBaseDataExtendedService;
 
+  /**
+   * Constructor.
+   */
   public function __construct(Client $guzzleClient, ConfigFactoryInterface $configFactory)
   {
     $config = $configFactory->get('os2forms_cpr_lookup');
@@ -41,8 +52,10 @@ class CprService
 
     $certificateLocator = new AzureKeyVaultCertificateLocator(
       $vault,
-      $config->get('azure_key_vault_secret'), // Name of the certificate
-      $config->get('azure_key_vault_secret_version') // Version of the certificate
+    // Name of the certificate.
+      $config->get('azure_key_vault_secret'),
+    // Version of the certificate.
+      $config->get('azure_key_vault_secret_version')
     );
 
     $pathToWsdl = $config->get('service_contract');
@@ -50,7 +63,7 @@ class CprService
     $options = [
       'local_cert' => $certificateLocator->getAbsolutePathToCertificate(),
       'passphrase' => $certificateLocator->getPassphrase(),
-      'location' => $config->get('service_endpoint')
+      'location' => $config->get('service_endpoint'),
     ];
 
     $soapClient = new \SoapClient($pathToWsdl, $options);
@@ -65,9 +78,20 @@ class CprService
     $this->personBaseDataExtendedService = new PersonBaseDataExtendedService($soapClient, $requestGenerator);
   }
 
-  public function search(string $cpr)
-  {
+  /**
+   * Performs a call on the Person Base Data Extended service.
+   *
+   * @param string $cpr
+   *   The CPR number to search for.
+   *
+   * @return \Drupal\os2forms_cpr_lookup\CPR\CprServiceResult
+   *   The CPR Service Result.
+   *
+   * @throws \ItkDev\Serviceplatformen\Service\Exception\ServiceException
+   */
+  public function search(string $cpr): CprServiceResult {
     $response = $this->personBaseDataExtendedService->personLookup($cpr);
     return new CprServiceResult($response);
   }
+
 }

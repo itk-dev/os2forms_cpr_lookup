@@ -1,27 +1,20 @@
 <?php
 
-
 namespace Drupal\os2forms_cpr_lookup\Element;
 
-
 use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\InvokeCommand;
 use Drupal\Core\Ajax\MessageCommand;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Render\Annotation\FormElement;
-use Drupal\Core\Render\Element\Ajax;
 use Drupal\Core\Render\Element\Textfield;
 use Drupal\os2forms_cpr_lookup\CPR\CprServiceResult;
-use Drupal\os2forms_cpr_lookup\Service\CprService;
 use ItkDev\Serviceplatformen\Service\Exception\NoPnrFoundException;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @FormElement("cpr_element")
  */
-class CprElement extends Textfield
-{
+class CprElement extends Textfield {
+
   /**
    * {@inheritdoc}
    */
@@ -40,8 +33,10 @@ class CprElement extends Textfield
     return $element;
   }
 
-  public function validate(&$element, FormStateInterface $form_state, &$complete_form)
-  {
+  /**
+   * Validation.
+   */
+  public function validate(&$element, FormStateInterface $form_state, &$complete_form) {
     if ($element['#value'] !== '') {
       if (!preg_match('{^\d{10}$}', $element['#value'])) {
         $form_state->setError($element, t('%name field is not a valid CPR.', ['%name' => $element['#title']]));
@@ -49,6 +44,9 @@ class CprElement extends Textfield
     }
   }
 
+  /**
+   * Call back method when performing ajax request.
+   */
   public function ajaxCallback(array &$form, FormStateInterface $form_state) {
 
     $cprNumberElement = $form_state->getTriggeringElement();
@@ -56,26 +54,27 @@ class CprElement extends Textfield
 
     if ('' === $cpr) {
       $response = new AjaxResponse();
-      $command = new MessageCommand($this->t('No CPR number provided.'), null, ['type' => 'error']);
+      $command = new MessageCommand($this->t('No CPR number provided.'), NULL, ['type' => 'error']);
       $response->addCommand($command);
       return $response;
     }
 
     if (!preg_match('{^\d{10}$}', $cpr)) {
       $response = new AjaxResponse();
-      $command = new MessageCommand(t('Not a valid CPR number.'), null, ['type' => 'error']);
+      $command = new MessageCommand(t('Not a valid CPR number.'), NULL, ['type' => 'error']);
       $response->addCommand($command);
       return $response;
     }
 
-    /** @var CprService $cprService */
+    /** @var \Drupal\os2forms_cpr_lookup\Service\CprService $cprService */
     $cprService = \Drupal::service('os2forms_cpr_lookup.service');
 
     try {
       $result = $cprService->search($cpr);
-    } catch (NoPnrFoundException $e) {
+    }
+    catch (NoPnrFoundException $e) {
       $response = new AjaxResponse();
-      $command = new MessageCommand($this->t('Not a valid CPR number.'), null, ['type' => 'error']);
+      $command = new MessageCommand($this->t('Not a valid CPR number.'), NULL, ['type' => 'error']);
       $response->addCommand($command);
       return $response;
     }
@@ -88,8 +87,10 @@ class CprElement extends Textfield
     return $response;
   }
 
-  private function getNameInvokeCommand($result)
-  {
+  /**
+   * Get name invoke command.
+   */
+  private function getNameInvokeCommand($result) {
     $selector = '.cpr-name';
     $method = 'val';
     $arguments = [$this->generateNameString($result)];
@@ -97,8 +98,10 @@ class CprElement extends Textfield
     return new InvokeCommand($selector, $method, $arguments);
   }
 
-  private function getAddressInvokeCommand($result)
-  {
+  /**
+   * Get address invoke command.
+   */
+  private function getAddressInvokeCommand($result) {
     $selector = '.cpr-address';
     $method = 'val';
     $arguments = [$this->generateAddressString($result)];
@@ -106,10 +109,12 @@ class CprElement extends Textfield
     return new InvokeCommand($selector, $method, $arguments);
   }
 
-  private function generateNameString(CprServiceResult $result): string
-  {
+  /**
+   * Generates name string.
+   */
+  private function generateNameString(CprServiceResult $result): string {
     $name = $result->getFirstName();
-    if (null !== $result->getMiddleName()) {
+    if (NULL !== $result->getMiddleName()) {
       $name .= ' ' . $result->getMiddleName();
     }
     $name .= ' ' . $result->getLastName();
@@ -117,31 +122,30 @@ class CprElement extends Textfield
     return $name;
   }
 
-  private function generateAddressString(CprServiceResult $result): string
-  {
+  /**
+   * Generates address string.
+   */
+  private function generateAddressString(CprServiceResult $result): string {
     $address = $result->getStreetName();
 
-    $address .= null !== $result->getHouseNumber()
-      ? ' '.$result->getHouseNumber()
-      : ''
-    ;
+    $address .= NULL !== $result->getHouseNumber()
+      ? ' ' . $result->getHouseNumber()
+      : '';
 
-    $address .= null !== $result->getFloor()
-      ? ' '.$result->getFloor()
-      : ''
-    ;
+    $address .= NULL !== $result->getFloor()
+      ? ' ' . $result->getFloor()
+      : '';
 
-    $address .= null !== $result->getSide()
-      ? ' '.$result->getSide()
-      : ''
-    ;
+    $address .= NULL !== $result->getSide()
+      ? ' ' . $result->getSide()
+      : '';
 
     $address .= ', '
       . $result->getPostalCode()
       . ' '
-      . $result->getCity()
-    ;
+      . $result->getCity();
 
     return $address;
   }
+
 }

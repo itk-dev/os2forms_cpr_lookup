@@ -47,3 +47,11 @@ The elements provided:
 * CPR Element - Element which queries the Danish CPR register when changed.
 * CPR Name Element - This is populated with the name from the above mentioned query result.
 * CPR Address Element - This is populated with the address from the above mentioned query result.
+
+## Coding standards
+
+Run phpcs with the provided configuration:
+
+```shell
+/path/to/your/phpcs --standard=phpcs.xml.dist
+```
