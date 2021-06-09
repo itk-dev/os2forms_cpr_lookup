@@ -50,6 +50,8 @@ The elements provided:
 
 ## Coding standards
 
+Run phpcs with the provided configuration:
+
 ```shell
-./vendor/bin/phpcs --standard=Drupal --extensions=php,module,inc,install,test,profile,theme,css,info,txt,md,yml .
+/path/to/your/phpcs --standard=phpcs.xml.dist
 ```
