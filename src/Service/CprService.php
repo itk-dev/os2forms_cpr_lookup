@@ -4,6 +4,7 @@ namespace Drupal\os2forms_cpr_lookup\Service;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\os2forms_cpr_lookup\CPR\CprServiceResult;
+use GuzzleHttp\Client;
 use Http\Factory\Guzzle\RequestFactory;
 use ItkDev\AzureKeyVault\Authorisation\VaultToken;
 use Http\Adapter\Guzzle6\Client as GuzzleAdapter;
@@ -16,7 +17,7 @@ class CprService
 {
   private $personBaseDataExtendedService;
 
-  public function __construct(\GuzzleHttp\Client $guzzleClient, ConfigFactoryInterface $configFactory)
+  public function __construct(Client $guzzleClient, ConfigFactoryInterface $configFactory)
   {
     $config = $configFactory->get('os2forms_cpr_lookup');
 
