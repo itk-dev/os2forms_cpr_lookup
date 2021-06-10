@@ -26,10 +26,10 @@ class CprServiceResult {
   /**
    * ServiceplatformenCprServiceResult constructor.
    *
-   * @param array $response
+   * @param object $response
    *   Original response from the CPR service.
    */
-  public function __construct(array $response) {
+  public function __construct(object $response) {
     $this->response = $response;
 
     $this->propertyAccessor = PropertyAccess::createPropertyAccessor();
