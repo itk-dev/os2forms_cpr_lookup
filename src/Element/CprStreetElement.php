@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Drupal\os2forms_cpr_lookup\Element;
 
 use Drupal\Core\Render\Element\Textfield;
@@ -9,6 +8,7 @@ use Drupal\Core\Render\Element\Textfield;
  * @FormElement("cpr_street_element")
  */
 class CprStreetElement extends TextField {
+
   /**
    * {@inheritDoc}
    */
@@ -18,4 +18,5 @@ class CprStreetElement extends TextField {
 
     return $element;
   }
+
 }
