@@ -88,6 +88,7 @@ class CprElement extends Textfield {
     $response->addCommand($this->getFloorInvokeCommand($result));
     $response->addCommand($this->getSideInvokeCommand($result));
     $response->addCommand($this->getPostalCodeInvokeCommand($result));
+    $response->addCommand($this->getCityInvokeCommand($result));
 
     return $response;
   }
@@ -204,6 +205,14 @@ class CprElement extends Textfield {
     $selector = '.cpr-postal-code';
     $method = 'val';
     $arguments = [$result->getPostalCode()];
+
+    return new InvokeCommand($selector, $method, $arguments);
+  }
+
+  private function getCityInvokeCommand(CprServiceResult $result) {
+    $selector = '.cpr-city';
+    $method = 'val';
+    $arguments = [$result->getCity()];
 
     return new InvokeCommand($selector, $method, $arguments);
   }
