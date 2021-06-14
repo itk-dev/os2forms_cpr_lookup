@@ -86,6 +86,7 @@ class CprElement extends Textfield {
     $response->addCommand($this->getStreetInvokeCommand($result));
     $response->addCommand($this->getHouseNumberInvokeCommand($result));
     $response->addCommand($this->getFloorInvokeCommand($result));
+    $response->addCommand($this->getSideInvokeCommand($result));
 
     return $response;
   }
@@ -181,6 +182,19 @@ class CprElement extends Textfield {
       : '';
 
     $arguments = [$floor];
+
+    return new InvokeCommand($selector, $method, $arguments);
+  }
+
+  private function getSideInvokeCommand(CprServiceResult $result) {
+    $selector = '.cpr-side';
+    $method = 'val';
+
+    $side = NULL !== $result->getSide()
+      ? ' ' . $result->getSide()
+      : '';
+
+    $arguments = [$side];
 
     return new InvokeCommand($selector, $method, $arguments);
   }
