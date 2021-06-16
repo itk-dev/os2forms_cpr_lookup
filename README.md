@@ -47,6 +47,12 @@ The elements provided:
 * CPR Element - Element which queries the Danish CPR register when changed.
 * CPR Name Element - This is populated with the name from the above mentioned query result.
 * CPR Address Element - This is populated with the address from the above mentioned query result.
+* CPR Street Element - This is filled with the name of the street from the result.
+* CPR House Number Element - This is filled with the house number from the result.
+* CPR Side Element - This is filled with the side from the result.
+* CPR Floor Element - This is filled with the floor from the result.
+* CPR Postal Code Element - This is filled with the postal code from the result.
+* CPR City Element - This is filled with the city from the result.
 
 ## Coding standards
 
