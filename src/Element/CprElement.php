@@ -39,7 +39,7 @@ class CprElement extends Textfield {
   public function validate(&$element, FormStateInterface $form_state, &$complete_form) {
     if ($element['#value'] !== '') {
       if (!preg_match('{^\d{10}$}', $element['#value'])) {
-        $form_state->setError($element, t('%name field is not a valid CPR.', ['%name' => $element['#title']]));
+        $form_state->setError($element, $this->t('%name field is not a valid CPR.', ['%name' => $element['#title']]));
       }
     }
   }
@@ -61,7 +61,7 @@ class CprElement extends Textfield {
 
     if (!preg_match('{^\d{10}$}', $cpr)) {
       $response = new AjaxResponse();
-      $command = new MessageCommand(t('Not a valid CPR number.'), NULL, ['type' => 'error']);
+      $command = new MessageCommand($this->t('Not a valid CPR number.'), NULL, ['type' => 'error']);
       $response->addCommand($command);
       return $response;
     }
@@ -83,6 +83,12 @@ class CprElement extends Textfield {
 
     $response->addCommand($this->getNameInvokeCommand($result));
     $response->addCommand($this->getAddressInvokeCommand($result));
+    $response->addCommand($this->getStreetInvokeCommand($result));
+    $response->addCommand($this->getHouseNumberInvokeCommand($result));
+    $response->addCommand($this->getFloorInvokeCommand($result));
+    $response->addCommand($this->getSideInvokeCommand($result));
+    $response->addCommand($this->getPostalCodeInvokeCommand($result));
+    $response->addCommand($this->getCityInvokeCommand($result));
 
     return $response;
   }
@@ -146,6 +152,123 @@ class CprElement extends Textfield {
       . $result->getCity();
 
     return $address;
+  }
+
+  /**
+   * Get Street invoke command.
+   *
+   * @param \Drupal\os2forms_cpr_lookup\CPR\CprServiceResult $result
+   *   Result from CPR Service.
+   *
+   * @return \Drupal\Core\Ajax\InvokeCommand
+   *   Invoke command for use in ajax response.
+   */
+  private function getStreetInvokeCommand(CprServiceResult $result): InvokeCommand {
+    $selector = '.cpr-street';
+    $method = 'val';
+    $arguments = [$result->getStreetName()];
+
+    return new InvokeCommand($selector, $method, $arguments);
+  }
+
+  /**
+   * Get House Number invoke command.
+   *
+   * @param \Drupal\os2forms_cpr_lookup\CPR\CprServiceResult $result
+   *   Result from CPR Service.
+   *
+   * @return \Drupal\Core\Ajax\InvokeCommand
+   *   Invoke command for use in ajax response.
+   */
+  private function getHouseNumberInvokeCommand(CprServiceResult $result): InvokeCommand {
+    $selector = '.cpr-house-number';
+    $method = 'val';
+
+    $houseNumber = NULL !== $result->getHouseNumber()
+      ? ' ' . $result->getHouseNumber()
+      : '';
+
+    $arguments = [$houseNumber];
+
+    return new InvokeCommand($selector, $method, $arguments);
+  }
+
+  /**
+   * Get Floor invoke command.
+   *
+   * @param \Drupal\os2forms_cpr_lookup\CPR\CprServiceResult $result
+   *   Result from CPR Service.
+   *
+   * @return \Drupal\Core\Ajax\InvokeCommand
+   *   Invoke command for use in ajax response.
+   */
+  private function getFloorInvokeCommand(CprServiceResult $result): InvokeCommand {
+    $selector = '.cpr-floor';
+    $method = 'val';
+
+    $floor = NULL !== $result->getFloor()
+      ? ' ' . $result->getFloor()
+      : '';
+
+    $arguments = [$floor];
+
+    return new InvokeCommand($selector, $method, $arguments);
+  }
+
+  /**
+   * Get Side invoke command.
+   *
+   * @param \Drupal\os2forms_cpr_lookup\CPR\CprServiceResult $result
+   *   Result from CPR Service.
+   *
+   * @return \Drupal\Core\Ajax\InvokeCommand
+   *   Invoke command for use in ajax response.
+   */
+  private function getSideInvokeCommand(CprServiceResult $result): InvokeCommand {
+    $selector = '.cpr-side';
+    $method = 'val';
+
+    $side = NULL !== $result->getSide()
+      ? ' ' . $result->getSide()
+      : '';
+
+    $arguments = [$side];
+
+    return new InvokeCommand($selector, $method, $arguments);
+  }
+
+  /**
+   * Get Postal Code invoke command.
+   *
+   * @param \Drupal\os2forms_cpr_lookup\CPR\CprServiceResult $result
+   *   Result from CPR Service.
+   *
+   * @return \Drupal\Core\Ajax\InvokeCommand
+   *   Invoke command for use in ajax response.
+   */
+  private function getPostalCodeInvokeCommand(CprServiceResult $result): InvokeCommand {
+    $selector = '.cpr-postal-code';
+    $method = 'val';
+    $arguments = [$result->getPostalCode()];
+
+    return new InvokeCommand($selector, $method, $arguments);
+  }
+
+  /**
+   * Get City invoke command.
+   *
+   * @param \Drupal\os2forms_cpr_lookup\CPR\CprServiceResult $result
+   *   Result from CPR Service.
+   *
+   * @return \Drupal\Core\Ajax\InvokeCommand
+   *   Invoke command for use in ajax response.
+   */
+  private function getCityInvokeCommand(CprServiceResult $result): InvokeCommand {
+    $selector = '.cpr-city';
+    $method = 'val';
+    $arguments = [$result->getCity()];
+
+    return new InvokeCommand($selector, $method, $arguments);
   }
 
 }
