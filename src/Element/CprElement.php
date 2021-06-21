@@ -39,7 +39,7 @@ class CprElement extends Textfield {
   public function validate(&$element, FormStateInterface $form_state, &$complete_form) {
     if ($element['#value'] !== '') {
       if (!preg_match('{^\d{10}$}', $element['#value'])) {
-        $form_state->setError($element, t('%name field is not a valid CPR.', ['%name' => $element['#title']]));
+        $form_state->setError($element, $this->t('%name field is not a valid CPR.', ['%name' => $element['#title']]));
       }
     }
   }
@@ -61,7 +61,7 @@ class CprElement extends Textfield {
 
     if (!preg_match('{^\d{10}$}', $cpr)) {
       $response = new AjaxResponse();
-      $command = new MessageCommand(t('Not a valid CPR number.'), NULL, ['type' => 'error']);
+      $command = new MessageCommand($this->t('Not a valid CPR number.'), NULL, ['type' => 'error']);
       $response->addCommand($command);
       return $response;
     }
@@ -90,10 +90,10 @@ class CprElement extends Textfield {
   /**
    * Get name invoke command.
    */
-  private function getNameInvokeCommand($result) {
+  private function getNameInvokeCommand(CprServiceResult $result) {
     $selector = '.cpr-name';
     $method = 'val';
-    $arguments = [$this->generateNameString($result)];
+    $arguments = [$result->getName()];
 
     return new InvokeCommand($selector, $method, $arguments);
   }
@@ -101,51 +101,12 @@ class CprElement extends Textfield {
   /**
    * Get address invoke command.
    */
-  private function getAddressInvokeCommand($result) {
+  private function getAddressInvokeCommand(CprServiceResult $result) {
     $selector = '.cpr-address';
     $method = 'val';
-    $arguments = [$this->generateAddressString($result)];
+    $arguments = [$result->getAddress()];
 
     return new InvokeCommand($selector, $method, $arguments);
-  }
-
-  /**
-   * Generates name string.
-   */
-  private function generateNameString(CprServiceResult $result): string {
-    $name = $result->getFirstName();
-    if (NULL !== $result->getMiddleName()) {
-      $name .= ' ' . $result->getMiddleName();
-    }
-    $name .= ' ' . $result->getLastName();
-
-    return $name;
-  }
-
-  /**
-   * Generates address string.
-   */
-  private function generateAddressString(CprServiceResult $result): string {
-    $address = $result->getStreetName();
-
-    $address .= NULL !== $result->getHouseNumber()
-      ? ' ' . $result->getHouseNumber()
-      : '';
-
-    $address .= NULL !== $result->getFloor()
-      ? ' ' . $result->getFloor()
-      : '';
-
-    $address .= NULL !== $result->getSide()
-      ? ' ' . $result->getSide()
-      : '';
-
-    $address .= ', '
-      . $result->getPostalCode()
-      . ' '
-      . $result->getCity();
-
-    return $address;
   }
 
 }

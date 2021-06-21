@@ -28,8 +28,7 @@ class CprService {
   /**
    * Constructor.
    */
-  public function __construct(Client $guzzleClient, ConfigFactoryInterface $configFactory)
-  {
+  public function __construct(Client $guzzleClient, ConfigFactoryInterface $configFactory) {
     $config = $configFactory->get('os2forms_cpr_lookup');
 
     $httpClient = new GuzzleAdapter($guzzleClient);
