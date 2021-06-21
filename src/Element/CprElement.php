@@ -96,10 +96,10 @@ class CprElement extends Textfield {
   /**
    * Get name invoke command.
    */
-  private function getNameInvokeCommand($result) {
+  private function getNameInvokeCommand(CprServiceResult $result) {
     $selector = '.cpr-name';
     $method = 'val';
-    $arguments = [$this->generateNameString($result)];
+    $arguments = [$result->getName()];
 
     return new InvokeCommand($selector, $method, $arguments);
   }
@@ -107,10 +107,10 @@ class CprElement extends Textfield {
   /**
    * Get address invoke command.
    */
-  private function getAddressInvokeCommand($result) {
+  private function getAddressInvokeCommand(CprServiceResult $result) {
     $selector = '.cpr-address';
     $method = 'val';
-    $arguments = [$this->generateAddressString($result)];
+    $arguments = [$result->getAddress()];
 
     return new InvokeCommand($selector, $method, $arguments);
   }

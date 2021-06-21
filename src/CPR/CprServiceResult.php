@@ -132,6 +132,68 @@ class CprServiceResult {
   }
 
   /**
+   * Get full person name.
+   *
+   * @return string
+   */
+  public function getName(): string {
+    return implode(' ', array_filter([
+      $this->getFirstName(),
+      $this->getMiddleName(),
+      $this->getLastName(),
+    ]));
+  }
+
+  /**
+   * Get full address (one line).
+   *
+   * @return string
+   */
+  public function getAddress(): string {
+    $address = $this->getStreetName();
+
+    $address .= NULL !== $this->getHouseNumber()
+      ? ' ' . $this->getHouseNumber()
+      : '';
+
+    $address .= NULL !== $this->getFloor()
+      ? ' ' . $this->getFloor()
+      : '';
+
+    $address .= NULL !== $this->getSide()
+      ? ' ' . $this->getSide()
+      : '';
+
+    $address .= ', '
+      . $this->getPostalCode()
+      . ' '
+      . $this->getCity();
+
+    return $address;
+  }
+
+  /**
+   * Get all values in an associative array.
+   *
+   * @return array
+   */
+  public function toArray(): array {
+    return [
+      'first_name' => $this->getFirstName(),
+      'middle_name' => $this->getMiddleName(),
+      'last_name' => $this->getLastName(),
+      'city' => $this->getCity(),
+      'postal_code' => $this->getPostalCode(),
+      'floor' => $this->getFloor(),
+      'house_number' => $this->getHouseNumber(),
+      'side' => $this->getSide(),
+      'street_name' => $this->getStreetName(),
+      'address' => $this->getAddress(),
+      'name' => $this->getName(),
+    ];
+  }
+
+  /**
    * Returns the value of the property.
    *
    * @param string $property
