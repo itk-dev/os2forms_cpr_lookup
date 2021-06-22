@@ -116,45 +116,6 @@ class CprElement extends Textfield {
   }
 
   /**
-   * Generates name string.
-   */
-  private function generateNameString(CprServiceResult $result): string {
-    $name = $result->getFirstName();
-    if (NULL !== $result->getMiddleName()) {
-      $name .= ' ' . $result->getMiddleName();
-    }
-    $name .= ' ' . $result->getLastName();
-
-    return $name;
-  }
-
-  /**
-   * Generates address string.
-   */
-  private function generateAddressString(CprServiceResult $result): string {
-    $address = $result->getStreetName();
-
-    $address .= NULL !== $result->getHouseNumber()
-      ? ' ' . $result->getHouseNumber()
-      : '';
-
-    $address .= NULL !== $result->getFloor()
-      ? ' ' . $result->getFloor()
-      : '';
-
-    $address .= NULL !== $result->getSide()
-      ? ' ' . $result->getSide()
-      : '';
-
-    $address .= ', '
-      . $result->getPostalCode()
-      . ' '
-      . $result->getCity();
-
-    return $address;
-  }
-
-  /**
    * Get Street invoke command.
    *
    * @param \Drupal\os2forms_cpr_lookup\CPR\CprServiceResult $result

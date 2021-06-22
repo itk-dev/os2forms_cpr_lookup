@@ -30,17 +30,21 @@ abstract class CprLookupElement extends NemidElementBase {
   protected const FORM_STATE_DATA = 'CprLookupElement';
 
   /**
+   * The auth provider service.
+   *
    * @var \Drupal\os2web_nemlogin\Service\AuthProviderService
    */
   private $authProviderService;
 
   /**
+   * The CPR service.
+   *
    * @var \Drupal\os2forms_cpr_lookup\Service\CprService
    */
   private $cprService;
 
   /**
-   *
+   * Constructor.
    */
   public function __construct(
     array $configuration,
@@ -64,7 +68,7 @@ abstract class CprLookupElement extends NemidElementBase {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(

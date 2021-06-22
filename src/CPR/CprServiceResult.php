@@ -135,6 +135,7 @@ class CprServiceResult {
    * Get full person name.
    *
    * @return string
+   *   The full person name.
    */
   public function getName(): string {
     return implode(' ', array_filter([
@@ -148,6 +149,7 @@ class CprServiceResult {
    * Get full address (one line).
    *
    * @return string
+   *   The formatted address.
    */
   public function getAddress(): string {
     $address = $this->getStreetName();
@@ -176,6 +178,7 @@ class CprServiceResult {
    * Get all values in an associative array.
    *
    * @return array
+   *   An array with all values.
    */
   public function toArray(): array {
     return [
