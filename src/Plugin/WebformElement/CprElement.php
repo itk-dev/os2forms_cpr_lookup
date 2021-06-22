@@ -7,9 +7,9 @@ use Drupal\webform\Plugin\WebformElement\TextField;
 /**
  * @WebformElement(
  *   id = "cpr_element",
- *   label = "CPR Element",
- *   description = "CPR Element description",
- *   category = "CPR elements"
+ *   label = @Translation("CPR Element"),
+ *   description = @Translation("CPR Element description"),
+ *   category = @Translation("CPR elements")
  * )
  */
 class CprElement extends TextField {
