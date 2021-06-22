@@ -5,6 +5,8 @@ namespace Drupal\os2forms_cpr_lookup\Plugin\WebformElement;
 use Drupal\os2forms_nemid\Plugin\WebformElement\NemidElementPersonalInterface;
 
 /**
+ * CPR House number element.
+ *
  * @WebformElement(
  *   id = "cpr_house_number_element",
  *   label = "CPR House Number Element",

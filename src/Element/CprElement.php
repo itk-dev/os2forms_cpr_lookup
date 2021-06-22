@@ -11,6 +11,8 @@ use Drupal\os2forms_cpr_lookup\CPR\CprServiceResult;
 use ItkDev\Serviceplatformen\Service\Exception\NoPnrFoundException;
 
 /**
+ * CPR Element.
+ *
  * @FormElement("cpr_element")
  */
 class CprElement extends Textfield {

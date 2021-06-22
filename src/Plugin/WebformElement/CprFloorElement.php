@@ -5,6 +5,8 @@ namespace Drupal\os2forms_cpr_lookup\Plugin\WebformElement;
 use Drupal\os2forms_nemid\Plugin\WebformElement\NemidElementPersonalInterface;
 
 /**
+ * CPR Floor element.
+ *
  * @WebformElement(
  *   id = "cpr_floor_element",
  *   label = "CPR Floor Element",
