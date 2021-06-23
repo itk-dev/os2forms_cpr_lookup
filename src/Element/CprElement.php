@@ -11,6 +11,8 @@ use Drupal\os2forms_cpr_lookup\CPR\CprServiceResult;
 use ItkDev\Serviceplatformen\Service\Exception\NoPnrFoundException;
 
 /**
+ * CPR Element.
+ *
  * @FormElement("cpr_element")
  */
 class CprElement extends Textfield {
@@ -96,10 +98,10 @@ class CprElement extends Textfield {
   /**
    * Get name invoke command.
    */
-  private function getNameInvokeCommand($result) {
+  private function getNameInvokeCommand(CprServiceResult $result) {
     $selector = '.cpr-name';
     $method = 'val';
-    $arguments = [$this->generateNameString($result)];
+    $arguments = [$result->getName()];
 
     return new InvokeCommand($selector, $method, $arguments);
   }
@@ -107,51 +109,12 @@ class CprElement extends Textfield {
   /**
    * Get address invoke command.
    */
-  private function getAddressInvokeCommand($result) {
+  private function getAddressInvokeCommand(CprServiceResult $result) {
     $selector = '.cpr-address';
     $method = 'val';
-    $arguments = [$this->generateAddressString($result)];
+    $arguments = [$result->getAddress()];
 
     return new InvokeCommand($selector, $method, $arguments);
-  }
-
-  /**
-   * Generates name string.
-   */
-  private function generateNameString(CprServiceResult $result): string {
-    $name = $result->getFirstName();
-    if (NULL !== $result->getMiddleName()) {
-      $name .= ' ' . $result->getMiddleName();
-    }
-    $name .= ' ' . $result->getLastName();
-
-    return $name;
-  }
-
-  /**
-   * Generates address string.
-   */
-  private function generateAddressString(CprServiceResult $result): string {
-    $address = $result->getStreetName();
-
-    $address .= NULL !== $result->getHouseNumber()
-      ? ' ' . $result->getHouseNumber()
-      : '';
-
-    $address .= NULL !== $result->getFloor()
-      ? ' ' . $result->getFloor()
-      : '';
-
-    $address .= NULL !== $result->getSide()
-      ? ' ' . $result->getSide()
-      : '';
-
-    $address .= ', '
-      . $result->getPostalCode()
-      . ' '
-      . $result->getCity();
-
-    return $address;
   }
 
   /**

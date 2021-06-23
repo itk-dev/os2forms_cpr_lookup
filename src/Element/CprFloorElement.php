@@ -5,6 +5,8 @@ namespace Drupal\os2forms_cpr_lookup\Element;
 use Drupal\Core\Render\Element\Textfield;
 
 /**
+ * CPR Floor element.
+ *
  * @FormElement("cpr_floor_element")
  */
 class CprFloorElement extends Textfield {

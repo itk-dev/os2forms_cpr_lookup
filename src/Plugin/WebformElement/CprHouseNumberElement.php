@@ -2,16 +2,25 @@
 
 namespace Drupal\os2forms_cpr_lookup\Plugin\WebformElement;
 
-use Drupal\webform\Plugin\WebformElement\TextField;
+use Drupal\os2forms_nemid\Plugin\WebformElement\NemidElementPersonalInterface;
 
 /**
+ * CPR House number element.
+ *
  * @WebformElement(
  *   id = "cpr_house_number_element",
- *   label = "CPR House Number Element",
- *   description = "CPR House Number Element description",
- *   category = "CPR elements"
+ *   label = @Translation("CPR House Number Element"),
+ *   description = @Translation("CPR House Number Element description"),
+ *   category = @Translation("CPR elements")
  * )
  */
-class CprHouseNumberElement extends TextField {
+class CprHouseNumberElement extends CprLookupElement implements NemidElementPersonalInterface {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getPrepopulateFieldFieldKey() {
+    return 'house_number';
+  }
 
 }
