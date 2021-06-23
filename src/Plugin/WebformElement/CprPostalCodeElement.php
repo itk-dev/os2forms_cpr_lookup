@@ -2,9 +2,11 @@
 
 namespace Drupal\os2forms_cpr_lookup\Plugin\WebformElement;
 
-use Drupal\webform\Plugin\WebformElement\TextField;
+use Drupal\os2forms_nemid\Plugin\WebformElement\NemidElementPersonalInterface;
 
 /**
+ * CPR Postal code element.
+ *
  * @WebformElement(
  *   id = "cpr_postal_code_element",
  *   label = "CPR Postal Code Element",
@@ -12,6 +14,13 @@ use Drupal\webform\Plugin\WebformElement\TextField;
  *   category = "CPR elements"
  * )
  */
-class CprPostalCodeElement extends TextField {
+class CprPostalCodeElement extends CprLookupElement implements NemidElementPersonalInterface {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getPrepopulateFieldFieldKey() {
+    return 'postal_code';
+  }
 
 }

@@ -2,9 +2,11 @@
 
 namespace Drupal\os2forms_cpr_lookup\Plugin\WebformElement;
 
-use Drupal\webform\Plugin\WebformElement\TextField;
+use Drupal\os2forms_nemid\Plugin\WebformElement\NemidElementPersonalInterface;
 
 /**
+ * CPR Floor element.
+ *
  * @WebformElement(
  *   id = "cpr_floor_element",
  *   label = "CPR Floor Element",
@@ -12,6 +14,13 @@ use Drupal\webform\Plugin\WebformElement\TextField;
  *   category = "CPR elements"
  * )
  */
-class CprFloorElement extends TextField {
+class CprFloorElement extends CprLookupElement implements NemidElementPersonalInterface {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getPrepopulateFieldFieldKey() {
+    return 'floor';
+  }
 
 }

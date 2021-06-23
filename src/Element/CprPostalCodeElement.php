@@ -5,6 +5,8 @@ namespace Drupal\os2forms_cpr_lookup\Element;
 use Drupal\Core\Render\Element\Textfield;
 
 /**
+ * CPR Postal code element.
+ *
  * @FormElement("cpr_postal_code_element")
  */
 class CprPostalCodeElement extends Textfield {

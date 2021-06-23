@@ -5,6 +5,8 @@ namespace Drupal\os2forms_cpr_lookup\Element;
 use Drupal\Core\Render\Element\Textfield;
 
 /**
+ * CPR House number element.
+ *
  * @FormElement("cpr_house_number_element")
  */
 class CprHouseNumberElement extends Textfield {

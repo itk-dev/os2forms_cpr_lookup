@@ -2,9 +2,11 @@
 
 namespace Drupal\os2forms_cpr_lookup\Plugin\WebformElement;
 
-use Drupal\webform\Plugin\WebformElement\TextField;
+use Drupal\os2forms_nemid\Plugin\WebformElement\NemidElementPersonalInterface;
 
 /**
+ * CPR Name element.
+ *
  * @WebformElement(
  *   id = "cpr_name_element",
  *   label = "CPR Name Element",
@@ -12,6 +14,13 @@ use Drupal\webform\Plugin\WebformElement\TextField;
  *   category = "CPR elements"
  * )
  */
-class CprNameElement extends TextField {
+class CprNameElement extends CprLookupElement implements NemidElementPersonalInterface {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getPrepopulateFieldFieldKey() {
+    return 'name';
+  }
 
 }
