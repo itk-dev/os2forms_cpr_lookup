@@ -9,6 +9,12 @@
             "email": "lats@aarhus.dk"
         }
     ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
+    ],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
@@ -16,7 +22,9 @@
         "itk-dev/serviceplatformen": "^1.0",
         "php-http/guzzle6-adapter": "^2.0.1",
         "http-interop/http-factory-guzzle": "^1.0.0",
-        "symfony/property-access": "^4.4"
+        "symfony/property-access": "^4.4",
+        "os2web/os2web_nemlogin": "^1.0",
+        "os2forms/os2forms": "^2.5"
     },
     "require-dev": {
         "drupal/coder": "^8.3",
