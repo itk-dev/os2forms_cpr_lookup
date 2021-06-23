@@ -16,7 +16,7 @@ use ItkDev\Serviceplatformen\Service\PersonBaseDataExtendedService;
 /**
  * CPR Service.
  */
-class CprService {
+class CprService implements CprServiceInterface {
 
   /**
    * PersonBaseDataExtendedService.
@@ -78,17 +78,9 @@ class CprService {
   }
 
   /**
-   * Performs a call on the Person Base Data Extended service.
-   *
-   * @param string $cpr
-   *   The CPR number to search for.
-   *
-   * @return \Drupal\os2forms_cpr_lookup\CPR\CprServiceResult
-   *   The CPR Service Result.
-   *
-   * @throws \ItkDev\Serviceplatformen\Service\Exception\ServiceException
+   * {@inheritdoc}
    */
-  public function search(string $cpr): CprServiceResult {
+  public function search($cpr) {
     $response = $this->personBaseDataExtendedService->personLookup($cpr);
     return new CprServiceResult($response);
   }

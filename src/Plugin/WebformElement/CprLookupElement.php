@@ -7,7 +7,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\ElementInfoManagerInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\os2forms_cpr_lookup\Service\CprService;
+use Drupal\os2forms_cpr_lookup\Service\CprServiceInterface;
 use Drupal\os2forms_nemid\Plugin\WebformElement\NemidElementBase;
 use Drupal\os2web_nemlogin\Service\AuthProviderService;
 use Drupal\webform\Plugin\WebformElementManagerInterface;
@@ -39,7 +39,7 @@ abstract class CprLookupElement extends NemidElementBase {
   /**
    * The CPR service.
    *
-   * @var \Drupal\os2forms_cpr_lookup\Service\CprService
+   * @var \Drupal\os2forms_cpr_lookup\Service\CprServiceInterface
    */
   private $cprService;
 
@@ -59,7 +59,7 @@ abstract class CprLookupElement extends NemidElementBase {
     WebformTokenManagerInterface $token_manager,
     WebformLibrariesManagerInterface $libraries_manager,
     AuthProviderService $authProviderService,
-    CprService $cprService
+    CprServiceInterface $cprService
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $logger, $config_factory, $current_user,
       $entity_type_manager, $element_info, $element_manager, $token_manager, $libraries_manager);
