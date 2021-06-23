@@ -9,9 +9,9 @@ use Drupal\os2forms_nemid\Plugin\WebformElement\NemidElementPersonalInterface;
  *
  * @WebformElement(
  *   id = "cpr_floor_element",
- *   label = "CPR Floor Element",
- *   description = "CPR Floor Element description",
- *   category = "CPR elements"
+ *   label = @Translation("CPR Floor Element"),
+ *   description = @Translation("CPR Floor Element description"),
+ *   category = @Translation("CPR elements")
  * )
  */
 class CprFloorElement extends CprLookupElement implements NemidElementPersonalInterface {
