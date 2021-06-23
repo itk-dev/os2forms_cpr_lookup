@@ -12,7 +12,7 @@ namespace Drupal\os2forms_cpr_lookup\ProxyClass\Service {
      *
      * @see \Drupal\Component\ProxyBuilder
      */
-    class CprService
+    class CprService implements \Drupal\os2forms_cpr_lookup\Service\CprServiceInterface
     {
 
         use \Drupal\Core\DependencyInjection\DependencySerializationTrait;
