@@ -112,6 +112,18 @@ abstract class CprLookupElement extends NemidElementBase {
           if ($cpr) {
             $result = $this->cprService->search($cpr);
             $data = $result->toArray();
+            // Merge in some values from the NemID login provider.
+            $data += array_filter(
+              array_map(
+                [$plugin, 'fetchValue'],
+                [
+                  'pid' => 'pid',
+                  // Will replace PID in the future https://migrering.nemlog-in.dk/nemlog-in-broker/privat-tjenesteudbyder/opslagstjenester/erstatning-til-pid-rid-uuid/
+                  'uuid' => 'uuid',
+                ]
+              )
+            );
+
             $form_state->set(static::FORM_STATE_DATA, $data);
           }
         }
