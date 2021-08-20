@@ -112,6 +112,8 @@ abstract class CprLookupElement extends NemidElementBase {
           if ($cpr) {
             $result = $this->cprService->search($cpr);
             $data = $result->toArray();
+            // Add data for the CPR value element.
+            $data['cpr'] = $cpr;
             // Merge in some values from the NemID login provider.
             $data += array_filter(
               array_map(
