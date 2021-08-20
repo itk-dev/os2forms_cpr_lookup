@@ -9,8 +9,8 @@ use Drupal\webform\Plugin\WebformElement\TextField;
  *
  * @WebformElement(
  *   id = "cpr_element",
- *   label = @Translation("CPR Element"),
- *   description = @Translation("CPR Element description"),
+ *   label = @Translation("CPR Lookup Element"),
+ *   description = @Translation("Performs CPR lookup when value changes and fills in onther CPR data fields on the form"),
  *   category = @Translation("CPR elements")
  * )
  */
