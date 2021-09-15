@@ -21,6 +21,6 @@ function os2forms_cpr_lookup_form_alter(array &$form, FormStateInterface $form_s
   }
 
   if ($foundCprElement) {
-    \Drupal::messenger()->addMessage(\t('CPR Lookup element found! Be advised you are lookup up CPR numbers!'));
+    \Drupal::messenger()->addMessage(\t('CPR Lookup element found! Be advised you are looking up CPR numbers!'));
   }
 }
