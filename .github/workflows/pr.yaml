@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         php-versions: [ '7.4' ]
-        dependency-version: [ prefer-lowest, prefer-stable ]
+        dependency-version: [ prefer-stable ]
     steps:
       - uses: actions/checkout@master
       - name: Setup PHP, with composer and extensions
