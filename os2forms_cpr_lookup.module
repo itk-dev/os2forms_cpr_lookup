@@ -1,0 +1,26 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_alter().
+ */
+function os2forms_cpr_lookup_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+
+  if (!array_key_exists('elements', $form)) {
+    return;
+  }
+
+  $elements = $form['elements'];
+
+  $foundCprElement = false;
+  foreach ($elements as $element) {
+    if (array_key_exists('#type', $element) && 'cpr_element' === $element['#type']) {
+      $foundCprElement = true;
+    }
+  }
+
+  if ($foundCprElement) {
+    \Drupal::messenger()->addMessage(\t('CPR Lookup element found! Be advised you are looking up CPR numbers!'));
+  }
+}
