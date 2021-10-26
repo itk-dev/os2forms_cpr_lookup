@@ -42,6 +42,9 @@
         ],
         "coding-standards-apply": [
             "@coding-standards-apply/phpcs"
+        ],
+        "install-codestandards": [
+            "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
         ]
     }
 }
