@@ -73,6 +73,17 @@ class CprElement extends Textfield {
 
     try {
       $result = $cprService->search($cpr);
+
+      $log = [
+        'type' => 'CPR',
+        'operation' => 'Query',
+        'description' => t('CPR Lookup performed for CPR: %cpr by User: %user', [
+          '%cpr' => $cpr,
+          '%user' => \Drupal::currentUser()->getEmail(),
+        ]),
+      ];
+
+      admin_audit_trail_insert($log);
     }
     catch (NoPnrFoundException $e) {
       $response = new AjaxResponse();
