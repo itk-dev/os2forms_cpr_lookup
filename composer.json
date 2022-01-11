@@ -1,5 +1,5 @@
 {
-    "name": "itk-dev/os2forms-cpr-lookup",
+    "name": "itk-dev/os2forms_cpr_lookup",
     "description": "Provides integration to CPR service provided by Serviceplatformen.",
     "type": "drupal-module",
     "license": "MIT",
