@@ -7,7 +7,7 @@ Query the Danish for CPR register for Drupal Webforms.
 Require it with composer:
 
 ```shell
-composer require "itk-dev/os2forms-cpr-lookup"
+composer require "itk-dev/os2forms_cpr_lookup"
 ```
 
 Enable it with drush:
