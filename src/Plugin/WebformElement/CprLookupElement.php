@@ -61,8 +61,16 @@ abstract class CprLookupElement extends NemidElementBase {
     AuthProviderService $authProviderService,
     CprServiceInterface $cprService
   ) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $logger, $config_factory, $current_user,
-      $entity_type_manager, $element_info, $element_manager, $token_manager, $libraries_manager);
+    // PluginBase::__construct() accepts only three arguments.
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->logger = $logger;
+    $this->configFactory = $config_factory;
+    $this->currentUser = $current_user;
+    $this->entityTypeManager = $entity_type_manager;
+    $this->elementInfo = $element_info;
+    $this->elementManager = $element_manager;
+    $this->tokenManager = $token_manager;
+    $this->librariesManager = $libraries_manager;
     $this->authProviderService = $authProviderService;
     $this->cprService = $cprService;
   }
