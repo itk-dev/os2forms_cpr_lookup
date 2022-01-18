@@ -5,10 +5,12 @@ namespace Drupal\os2forms_cpr_lookup\Element;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\InvokeCommand;
 use Drupal\Core\Ajax\MessageCommand;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element\Textfield;
 use Drupal\os2forms_cpr_lookup\CPR\CprServiceResult;
 use ItkDev\Serviceplatformen\Service\Exception\NoPnrFoundException;
+use Psr\Container\ContainerInterface;
 
 /**
  * CPR Element.
@@ -82,6 +84,15 @@ class CprElement extends Textfield {
           '%user' => \Drupal::currentUser()->getEmail(),
         ]),
       ];
+
+      if (!\Drupal::moduleHandler()->moduleExists('admin_audit_trail')) {
+        \Drupal::logger('os2forms_cpr_lookup')->error('Required module admin_audit_trail not installed.');
+
+        $response = new AjaxResponse();
+        $command = new MessageCommand($this->t('Something went wrong. Please contact an administrator for further assistance.'), NULL, ['type' => 'error']);
+        $response->addCommand($command);
+        return $response;
+      }
 
       admin_audit_trail_insert($log);
     }
