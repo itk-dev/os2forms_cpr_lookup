@@ -1,6 +1,6 @@
 # OS2Forms CPR Lookup
 
-Query the Danish for CPR register for Drupal Webforms.
+Query the Danish for CPR register for Drupal Webforms. This module uses the service [SF1520](https://digitaliseringskataloget.dk/integration/sf1520) from Serviceplatformen. Information and documentation can be obtained by following the link.
 
 ## Installation
 
