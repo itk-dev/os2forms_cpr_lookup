@@ -10,7 +10,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\os2forms_cpr_lookup\Service\CprServiceInterface;
 use Drupal\os2forms_nemid\Plugin\WebformElement\NemidElementPersonalInterface;
 use Drupal\os2web_nemlogin\Service\AuthProviderService;
-use Drupal\webform\Plugin\WebformElement\Select;
+use Drupal\webform\Plugin\WebformElement\Radios;
 use Drupal\webform\Plugin\WebformElementManagerInterface;
 use Drupal\webform\WebformLibrariesManagerInterface;
 use Drupal\webform\WebformTokenManagerInterface;
@@ -19,16 +19,16 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * CPR Children Select element.
+ * CPR Children Radios element.
  *
  * @WebformElement(
- *   id = "cpr_children_select_element",
- *   label = @Translation("CPR Children Select Element"),
- *   description = @Translation("CPR Children Select Element description"),
+ *   id = "cpr_children_radios_element",
+ *   label = @Translation("CPR Children Radios Element"),
+ *   description = @Translation("CPR Children Radios Element description"),
  *   category = @Translation("CPR elements")
  * )
  */
-class CprChildrenSelectElement extends Select implements NemidElementPersonalInterface {
+class CprChildrenRadiosElement extends Radios implements NemidElementPersonalInterface {
   protected const FORM_STATE_DATA = 'CprLookupElement';
 
   /**
@@ -43,10 +43,23 @@ class CprChildrenSelectElement extends Select implements NemidElementPersonalInt
    *
    * @var \Drupal\os2forms_cpr_lookup\Service\CprServiceInterface
    */
-  private $cprService;
+  private CprServiceInterface $cprService;
 
   /**
    * Constructor.
+   * @param array $configuration
+   * @param $plugin_id
+   * @param $plugin_definition
+   * @param LoggerInterface $logger
+   * @param ConfigFactoryInterface $config_factory
+   * @param AccountInterface $current_user
+   * @param EntityTypeManagerInterface $entity_type_manager
+   * @param ElementInfoManagerInterface $element_info
+   * @param WebformElementManagerInterface $element_manager
+   * @param WebformTokenManagerInterface $token_manager
+   * @param WebformLibrariesManagerInterface $libraries_manager
+   * @param AuthProviderService $authProviderService
+   * @param CprServiceInterface $cprService
    */
   public function __construct(
     array $configuration,
@@ -149,7 +162,7 @@ class CprChildrenSelectElement extends Select implements NemidElementPersonalInt
   public function alterForm(array &$element, array &$form, FormStateInterface $form_state)
   {
     // Check if data is already set by CPR Look up element.
-    if ('cpr_children_select_element' === $element['#type']) {
+    if ('cpr_children_radios_element' === $element['#type']) {
       if ($form_state->has(static::FORM_STATE_DATA)) {
         $data = $form_state->get(static::FORM_STATE_DATA);
       }
