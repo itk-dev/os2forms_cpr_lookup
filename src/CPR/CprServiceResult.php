@@ -186,6 +186,7 @@ class CprServiceResult {
       'middle_name' => $this->getMiddleName(),
       'last_name' => $this->getLastName(),
       'city' => $this->getCity(),
+      'children' => $this->getChildren(),
       'postal_code' => $this->getPostalCode(),
       'floor' => $this->getFloor(),
       'house_number' => $this->getHouseNumber(),
@@ -211,4 +212,21 @@ class CprServiceResult {
       : '';
   }
 
+  /**
+   * Get chldren.
+   *
+   * @return string|null
+   *   The children.
+   */
+  public function getChildren(): ?string {
+    $childrenArray = [];
+    if ($this->propertyAccessor->isReadable($this->response, 'relationer.barn')) {
+      $children = $this->propertyAccessor->getValue($this->response, 'relationer.barn');
+      foreach ($children as $child) {
+        $childrenArray[] = $child->personnummer;
+      }
+      return implode(' ', array_filter($childrenArray));
+    }
+    return null;
+  }
 }
