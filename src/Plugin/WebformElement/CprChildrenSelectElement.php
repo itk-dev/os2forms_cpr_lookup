@@ -156,7 +156,6 @@ class CprChildrenSelectElement extends Select implements NemidElementPersonalInt
    */
   public function alterForm(array &$element, array &$form, FormStateInterface $form_state)
   {
-      // Check if data is already set by CPR Look up element.
       if ('cpr_children_select_element' === $element['#type']) {
         // Define form state data.
         // Making the request to the plugin, and storing the information on the
