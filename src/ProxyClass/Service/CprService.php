@@ -1,8 +1,8 @@
 <?php
-// @codingStandardsIgnoreFile
+// phpcs:ignoreFile
 
 /**
- * This file was generated via php core/scripts/generate-proxy-class.php 'Drupal\os2forms_cpr_lookup\Service\CprService' "./src".
+ * This file was generated via php core/scripts/generate-proxy-class.php 'Drupal\os2forms_cpr_lookup\Service\CprService' "web/modules/contrib/os2forms_cpr_lookup/src".
  */
 
 namespace Drupal\os2forms_cpr_lookup\ProxyClass\Service {
@@ -73,6 +73,22 @@ namespace Drupal\os2forms_cpr_lookup\ProxyClass\Service {
         public function search($cpr)
         {
             return $this->lazyLoadItself()->search($cpr);
+        }
+
+        /**
+         * {@inheritdoc}
+         */
+        public function prepareFormStateCprData($plugin)
+        {
+            return $this->lazyLoadItself()->prepareFormStateCprData($plugin);
+        }
+
+        /**
+         * {@inheritdoc}
+         */
+        public function setChildSelectOptions($cprData, $element)
+        {
+            return $this->lazyLoadItself()->setChildSelectOptions($cprData, $element);
         }
 
     }

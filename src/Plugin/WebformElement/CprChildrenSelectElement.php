@@ -13,6 +13,7 @@ use Drupal\os2web_nemlogin\Service\AuthProviderService;
 use Drupal\webform\Plugin\WebformElement\Select;
 use Drupal\webform\Plugin\WebformElementManagerInterface;
 use Drupal\webform\WebformLibrariesManagerInterface;
+use Drupal\webform\WebformSubmissionInterface;
 use Drupal\webform\WebformTokenManagerInterface;
 use ItkDev\Serviceplatformen\Service\Exception\ServiceException;
 use Psr\Log\LoggerInterface;
@@ -146,72 +147,42 @@ class CprChildrenSelectElement extends Select implements NemidElementPersonalInt
   /**
    * {@inheritdoc}
    */
+  public function prepare(array &$element, WebformSubmissionInterface $webform_submission = NULL) {
+
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function alterForm(array &$element, array &$form, FormStateInterface $form_state)
   {
-    // Check if data is already set by CPR Look up element.
-    if ('cpr_children_select_element' === $element['#type']) {
-      if ($form_state->has(static::FORM_STATE_DATA)) {
-        $data = $form_state->get(static::FORM_STATE_DATA);
-      }
-      else {
+      // Check if data is already set by CPR Look up element.
+      if ('cpr_children_select_element' === $element['#type']) {
+        // Define form state data.
         // Making the request to the plugin, and storing the information on the
         // form, so that it's available on the next element within the same
         // webform render.
-        $plugin = $this->authProviderService->getActivePlugin();
-
-        if ($plugin->isAuthenticated()) {
-          try {
-            $cpr = $plugin->fetchValue('cpr');
-            if ($cpr) {
-              $result = $this->cprService->search($cpr);
-              $data = $result->toArray();
-              // Add data for the CPR value element.
-              $data['cpr'] = $cpr;
-              // Merge in some values from the NemID login provider.
-              $data += array_filter(
-                array_map(
-                  [$plugin, 'fetchValue'],
-                  [
-                    'pid' => 'pid',
-                    // Will replace PID in the future https://migrering.nemlog-in.dk/nemlog-in-broker/privat-tjenesteudbyder/opslagstjenester/erstatning-til-pid-rid-uuid/
-                    'uuid' => 'uuid',
-                  ]
-                )
-              );
-
-              $form_state->set(static::FORM_STATE_DATA, $data);
-            }
-          }
-          catch (ServiceException $serviceException) {
-            // @todo Log this?
+        if (!$form_state->has(static::FORM_STATE_DATA)) {
+          $plugin = $this->authProviderService->getActivePlugin();
+          $data = $this->cprService->prepareFormStateCprData($plugin);
+          if ($data) {
+            $form_state->set(static::FORM_STATE_DATA, $data);
           }
         }
-      }
-      $options = [];
-      $cpr_data = $form_state->get(static::FORM_STATE_DATA);
-      if(!empty($cpr_data['children'])) {
-        $childrenArr = explode(' ', $cpr_data['children']);
+        $cprData = $form_state->get(static::FORM_STATE_DATA);
+        $form['elements'][$element['#webform_key']]['#options'] = $this->cprService->setChildSelectOptions($cprData, $element);
 
-        switch ($element['#cpr_output_type']) {
-          case 'name':
-            foreach ($childrenArr as $childCpr) {
-              $child = $this->cprService->search($childCpr);
-              $data = $child->toArray();
-              $options[$data['name']] = $data['name'];
-            }
-            break;
-          case 'cpr':
-            foreach ($childrenArr as $childCpr) {
-              $child = $this->cprService->search($childCpr);
-              $data = $child->toArray();
-              $options[$childCpr] = $data['name'];
-            }
-            break;
-          default:
+        // Remove form element form edit form and add as form item instead.
+        if (substr_compare($form_state->getBuildInfo()['form_id'], 'edit_form', -strlen('edit_form')) === 0) {
+          $form['elements'][$element['#webform_key']]['#access'] = FALSE;
+          $submissionValue = $form['information']['#webform_submission']->getElementData($element['#webform_key']);
+          $form[$element['#webform_key'] . '_value'] = [
+            '#type' => 'item',
+            '#title' => $element['#webform_key'],
+            '#markup' => '<div>' . $submissionValue . '</div>',
+          ];
         }
-      }
 
-      $form['elements'][$element['#webform_key']]['#options'] = $options;
-    }
+      }
   }
 }
