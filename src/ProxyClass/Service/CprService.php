@@ -1,8 +1,8 @@
 <?php
-// @codingStandardsIgnoreFile
+// phpcs:ignoreFile
 
 /**
- * This file was generated via php core/scripts/generate-proxy-class.php 'Drupal\os2forms_cpr_lookup\Service\CprService' "./src".
+ * This file was generated via php core/scripts/generate-proxy-class.php 'Drupal\os2forms_cpr_lookup\Service\CprService' "web/modules/contrib/os2forms_cpr_lookup/src".
  */
 
 namespace Drupal\os2forms_cpr_lookup\ProxyClass\Service {
