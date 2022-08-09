@@ -195,7 +195,8 @@ class CprChildrenSelectElement extends Select implements NemidElementPersonalInt
           }
         }
         $cprData = $form_state->get(static::FORM_STATE_DATA);
-        $form['elements'][$element['#webform_key']]['#options'] = $this->formHelper->setChildSelectOptions($cprData, $element);
+
+        $form['elements'][$element['#webform_key']]['#options'] = $cprData ? $this->formHelper->setChildSelectOptions($cprData, $element) : [];
 
         // Remove form element form edit form and add as form item instead.
         if (substr_compare($form_state->getBuildInfo()['form_id'], 'edit_form', -strlen('edit_form')) === 0) {
