@@ -21,26 +21,4 @@ interface CprServiceInterface {
    * @throws \ItkDev\Serviceplatformen\Service\Exception\ServiceException
    */
   public function search($cpr);
-
-  /**
-   * Prepare form state data.
-   *
-   * @param OpenIDConnect $plugin
-   *   The Nemlogin auth provider plugin ID
-   * @return array|null
-   *   CPR data.
-   */
-  public function prepareFormStateCprData(OpenIDConnect $plugin);
-
-  /**
-   * Set options in child selection elements Select/Radios.
-   *
-   * @param array $cprData
-   *   CPR data
-   * @param array $element
-   *   The webform element
-   * @return array
-   *   A key/value list of options.
-   */
-  public function setChildSelectOptions(array $cprData, array $element);
 }

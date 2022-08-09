@@ -8,6 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\ElementInfoManagerInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\os2forms_cpr_lookup\Service\CprServiceInterface;
+use Drupal\os2forms_cpr_lookup\Service\FormHelper;
 use Drupal\os2forms_nemid\Plugin\WebformElement\NemidElementPersonalInterface;
 use Drupal\os2web_nemlogin\Service\AuthProviderService;
 use Drupal\webform\Plugin\WebformElement\Radios;
@@ -30,7 +31,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class CprChildrenRadiosElement extends Radios implements NemidElementPersonalInterface {
-  protected const FORM_STATE_DATA = 'CprLookupElement';
+  protected const FORM_STATE_DATA = 'CprChildrenRadiosElement';
 
   /**
    * The auth provider service.
@@ -47,6 +48,13 @@ class CprChildrenRadiosElement extends Radios implements NemidElementPersonalInt
   private CprServiceInterface $cprService;
 
   /**
+   * The form helper service.
+   *
+   * @var FormHelper
+   */
+  private FormHelper $formHelper;
+
+  /**
    * Constructor.
    * @param array $configuration
    * @param $plugin_id
@@ -61,6 +69,7 @@ class CprChildrenRadiosElement extends Radios implements NemidElementPersonalInt
    * @param WebformLibrariesManagerInterface $libraries_manager
    * @param AuthProviderService $authProviderService
    * @param CprServiceInterface $cprService
+   * @param FormHelper $form_helper
    */
   public function __construct(
     array $configuration,
@@ -75,7 +84,8 @@ class CprChildrenRadiosElement extends Radios implements NemidElementPersonalInt
     WebformTokenManagerInterface $token_manager,
     WebformLibrariesManagerInterface $libraries_manager,
     AuthProviderService $authProviderService,
-    CprServiceInterface $cprService
+    CprServiceInterface $cprService,
+    FormHelper $form_helper
   ) {
     // PluginBase::__construct() accepts only three arguments.
     parent::__construct($configuration, $plugin_id, $plugin_definition);
@@ -89,6 +99,7 @@ class CprChildrenRadiosElement extends Radios implements NemidElementPersonalInt
     $this->librariesManager = $libraries_manager;
     $this->authProviderService = $authProviderService;
     $this->cprService = $cprService;
+    $this->formHelper = $form_helper;
   }
 
   /**
@@ -108,7 +119,8 @@ class CprChildrenRadiosElement extends Radios implements NemidElementPersonalInt
       $container->get('webform.token_manager'),
       $container->get('webform.libraries_manager'),
       $container->get('os2web_nemlogin.auth_provider'),
-      $container->get('os2forms_cpr_lookup.service')
+      $container->get('os2forms_cpr_lookup.service'),
+      $container->get('os2forms_cpr_lookup.form_service')
     );
   }
 
@@ -172,13 +184,13 @@ class CprChildrenRadiosElement extends Radios implements NemidElementPersonalInt
       // webform render.
       if (!$form_state->has(static::FORM_STATE_DATA)) {
         $plugin = $this->authProviderService->getActivePlugin();
-        $data = $this->cprService->prepareFormStateCprData($plugin);
+        $data = $this->formHelper->prepareFormStateCprData($plugin);
         if ($data) {
           $form_state->set(static::FORM_STATE_DATA, $data);
         }
       }
       $cprData = $form_state->get(static::FORM_STATE_DATA);
-      $form['elements'][$element['#webform_key']]['#options'] = $this->cprService->setChildSelectOptions($cprData, $element);
+      $form['elements'][$element['#webform_key']]['#options'] = $this->formHelper->setChildSelectOptions($cprData, $element);
 
       // Remove form element form edit form and add as form item instead.
       if (substr_compare($form_state->getBuildInfo()['form_id'], 'edit_form', -strlen('edit_form')) === 0) {

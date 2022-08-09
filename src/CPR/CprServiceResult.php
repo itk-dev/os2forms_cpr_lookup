@@ -213,19 +213,17 @@ class CprServiceResult {
   }
 
   /**
-   * Get chldren.
+   * Get children.
    *
-   * @return string|null
+   * @return array|null
    *   The children.
    */
-  public function getChildren(): ?string {
-    $childrenArray = [];
+  public function getChildren(): ?array {
     if ($this->propertyAccessor->isReadable($this->response, 'relationer.barn')) {
       $children = $this->propertyAccessor->getValue($this->response, 'relationer.barn');
-      foreach ($children as $child) {
-        $childrenArray[] = $child->personnummer;
-      }
-      return implode(' ', array_filter($childrenArray));
+      return array_map(static function ($child) {
+        return $child->personnummer;
+      }, $children);
     }
     return null;
   }

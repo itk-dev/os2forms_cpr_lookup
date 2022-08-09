@@ -75,22 +75,6 @@ namespace Drupal\os2forms_cpr_lookup\ProxyClass\Service {
             return $this->lazyLoadItself()->search($cpr);
         }
 
-        /**
-         * {@inheritdoc}
-         */
-        public function prepareFormStateCprData($plugin)
-        {
-            return $this->lazyLoadItself()->prepareFormStateCprData($plugin);
-        }
-
-        /**
-         * {@inheritdoc}
-         */
-        public function setChildSelectOptions($cprData, $element)
-        {
-            return $this->lazyLoadItself()->setChildSelectOptions($cprData, $element);
-        }
-
     }
 
 }
