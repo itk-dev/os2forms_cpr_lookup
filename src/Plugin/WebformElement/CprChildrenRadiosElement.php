@@ -29,6 +29,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   description = @Translation("CPR Children Radios Element description"),
  *   category = @Translation("CPR elements")
  * )
+ *
+ * @todo combine the two children elements into one.
  */
 class CprChildrenRadiosElement extends Radios implements NemidElementPersonalInterface {
   protected const FORM_STATE_DATA = 'CprChildrenRadiosElement';

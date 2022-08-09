@@ -29,6 +29,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   description = @Translation("CPR Children Select Element description"),
  *   category = @Translation("CPR elements")
  * )
+ *
+ * @todo combine the two children elements into one.
  */
 class CprChildrenSelectElement extends Select implements NemidElementPersonalInterface {
   protected const FORM_STATE_DATA = 'CprChildrenSelectElement';
