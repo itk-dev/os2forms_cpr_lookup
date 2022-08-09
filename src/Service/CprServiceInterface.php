@@ -2,6 +2,8 @@
 
 namespace Drupal\os2forms_cpr_lookup\Service;
 
+use Drupal\os2forms_nemlogin_openid_connect\Plugin\os2web\NemloginAuthProvider\OpenIDConnect;
+
 /**
  * CPR Service interface.
  */
@@ -19,5 +21,4 @@ interface CprServiceInterface {
    * @throws \ItkDev\Serviceplatformen\Service\Exception\ServiceException
    */
   public function search($cpr);
-
 }
