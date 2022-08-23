@@ -65,6 +65,10 @@ class CprService implements CprServiceInterface {
       'local_cert' => $certificateLocator->getAbsolutePathToCertificate(),
       'passphrase' => $certificateLocator->getPassphrase(),
       'location' => $config->get('service_endpoint'),
+
+      // We want relationer.barn to always be a list.
+      // @see https://www.php.net/manual/en/soapclient.construct.php#soapclient.construct.options.features
+      'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
     ];
 
     $soapClient = new \SoapClient($pathToWsdl, $options);
