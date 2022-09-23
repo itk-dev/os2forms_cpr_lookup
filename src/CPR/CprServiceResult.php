@@ -84,7 +84,7 @@ class CprServiceResult {
    *   The house number.
    */
   public function getHouseNumber(): ?string {
-    return $this->getProperty('adresse.aktuelAdresse.husnummer');
+    return ltrim($this->getProperty('adresse.aktuelAdresse.husnummer'), '0');
   }
 
   /**
@@ -95,7 +95,7 @@ class CprServiceResult {
    */
   public function getFloor(): ?string {
     return $this->propertyAccessor->isReadable($this->response, 'adresse.aktuelAdresse.etage')
-      ? $this->propertyAccessor->getValue($this->response, 'adresse.aktuelAdresse.etage')
+      ? ltrim($this->propertyAccessor->getValue($this->response, 'adresse.aktuelAdresse.etage'), '0')
       : NULL;
   }
 
@@ -107,7 +107,7 @@ class CprServiceResult {
    */
   public function getSide(): ?string {
     return $this->propertyAccessor->isReadable($this->response, 'adresse.aktuelAdresse.sidedoer')
-      ? $this->propertyAccessor->getValue($this->response, 'adresse.aktuelAdresse.sidedoer')
+      ? ltrim($this->propertyAccessor->getValue($this->response, 'adresse.aktuelAdresse.sidedoer'), '0')
       : NULL;
   }
 
