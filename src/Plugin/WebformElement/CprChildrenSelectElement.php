@@ -2,6 +2,7 @@
 
 namespace Drupal\os2forms_cpr_lookup\Plugin\WebformElement;
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -16,7 +17,6 @@ use Drupal\webform\Plugin\WebformElementManagerInterface;
 use Drupal\webform\WebformLibrariesManagerInterface;
 use Drupal\webform\WebformSubmissionInterface;
 use Drupal\webform\WebformTokenManagerInterface;
-use ItkDev\Serviceplatformen\Service\Exception\ServiceException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -196,19 +196,45 @@ class CprChildrenSelectElement extends Select implements NemidElementPersonalInt
         }
         $cprData = $form_state->get(static::FORM_STATE_DATA);
 
-        $form['elements'][$element['#webform_key']]['#options'] = $cprData ? $this->formHelper->setChildSelectOptions($cprData, $element) : [];
+        $cprElement = &NestedArray::getValue($form['elements'], $element['#webform_parents']);
+        $cprElement['#options'] = $cprData ? $this->formHelper->setChildSelectOptions($cprData, $element) : [];
 
-        // Remove form element form edit form and add as form item instead.
-        if (substr_compare($form_state->getBuildInfo()['form_id'], 'edit_form', -strlen('edit_form')) === 0) {
-          $form['elements'][$element['#webform_key']]['#access'] = FALSE;
-          $submissionValue = $form['information']['#webform_submission']->getElementData($element['#webform_key']);
-          $form[$element['#webform_key'] . '_value'] = [
-            '#type' => 'item',
-            '#title' => $element['#webform_key'],
-            '#markup' => '<div>' . $submissionValue . '</div>',
-          ];
+        // Add form element on edit form with form item displaying value.
+        if (substr_compare($form_state->getFormObject()->getFormId(), 'edit_form', -strlen('edit_form')) === 0) {
+        // Hide the cpr element and insert a form item for displaying the value
+        // before the cpr element.
+        $cprElement['#access'] = FALSE;
+
+        $parents = $element['#webform_parents'];
+        array_pop($parents);
+        $siblings = NestedArray::getValue($form['elements'], $parents);
+
+        // Find index of cpr element in siblings list.
+        $cprElementIndex = -1;
+        $index = -1;
+        foreach ($siblings as $sibling) {
+          $index++;
+          if (($sibling['#webform_key'] ?? NULL) === $cprElement['#webform_key']) {
+            $cprElementIndex = $index;
+            break;
+          }
         }
+        // Insert form item before cpr element.
+        $submissionValue = $form['information']['#webform_submission']->getElementData($element['#webform_key']);
+        // @see https://stackoverflow.com/a/1783125/2502647
+        $siblings = array_slice($siblings, 0, $cprElementIndex, TRUE)
+          + [
+            $cprElement['#webform_id'] . '_value' => [
+              '#type' => 'item',
+              '#title' => $element['#title'],
+              '#markup' => '<div>' . $submissionValue . '</div>',
+            ],
+          ]
+          + array_slice($siblings, $cprElementIndex, NULL, TRUE);
 
+        NestedArray::setValue($form['elements'], $parents, $siblings);
       }
+    }
   }
+
 }
