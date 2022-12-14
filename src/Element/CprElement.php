@@ -5,12 +5,10 @@ namespace Drupal\os2forms_cpr_lookup\Element;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\InvokeCommand;
 use Drupal\Core\Ajax\MessageCommand;
-use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element\Textfield;
 use Drupal\os2forms_cpr_lookup\CPR\CprServiceResult;
 use ItkDev\Serviceplatformen\Service\Exception\NoPnrFoundException;
-use Psr\Container\ContainerInterface;
 
 /**
  * CPR Element.
@@ -79,7 +77,7 @@ class CprElement extends Textfield {
       $log = [
         'type' => 'CPR',
         'operation' => 'Query',
-        'description' => t('CPR Lookup performed for CPR: %cpr by User: %user', [
+        'description' => $this->t('CPR Lookup performed for CPR: %cpr by User: %user', [
           '%cpr' => $cpr,
           '%user' => \Drupal::currentUser()->getEmail(),
         ]),

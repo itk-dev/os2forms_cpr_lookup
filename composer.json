@@ -11,6 +11,21 @@
     ],
     "repositories": [
         {
+            "//": "https://git.drupalcode.org/issue/webform_embed-3149360/-/tree/3149360-automated-drupal-9",
+            "type": "package",
+            "package": {
+                "name": "drupal/webform_embed",
+                "//": "@see https://github.com/OS2Forms/os2forms/blob/master/composer.json#L27",
+                "version": "1.x-dev",
+                "type": "drupal-module",
+                "source": {
+                    "url": "https://git.drupalcode.org/issue/webform_embed-3149360.git",
+                    "type": "git",
+                    "reference": "3149360-automated-drupal-9"
+                }
+            }
+        },
+        {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
         }
@@ -44,5 +59,11 @@
         "coding-standards-apply": [
             "@coding-standards-apply/phpcs"
         ]
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "vaimo/composer-patches": true
+        }
     }
 }

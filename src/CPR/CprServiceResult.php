@@ -225,6 +225,7 @@ class CprServiceResult {
         return $child->personnummer;
       }, $children);
     }
-    return null;
+    return NULL;
   }
+
 }
