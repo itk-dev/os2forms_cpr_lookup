@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Module file for os2forms_cpr_lookup.
+ */
+
 use Drupal\Core\Form\FormStateInterface;
 
 /**
@@ -13,10 +18,10 @@ function os2forms_cpr_lookup_form_alter(array &$form, FormStateInterface $form_s
 
   $elements = $form['elements'];
 
-  $foundCprElement = false;
+  $foundCprElement = FALSE;
   foreach ($elements as $element) {
     if (array_key_exists('#type', $element) && 'cpr_element' === $element['#type']) {
-      $foundCprElement = true;
+      $foundCprElement = TRUE;
     }
   }
 

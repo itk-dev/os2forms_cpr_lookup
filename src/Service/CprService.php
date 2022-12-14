@@ -4,7 +4,6 @@ namespace Drupal\os2forms_cpr_lookup\Service;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\os2forms_cpr_lookup\CPR\CprServiceResult;
-use Drupal\os2forms_nemlogin_openid_connect\Plugin\os2web\NemloginAuthProvider\OpenIDConnect;
 use GuzzleHttp\Client;
 use Http\Factory\Guzzle\RequestFactory;
 use ItkDev\AzureKeyVault\Authorisation\VaultToken;
@@ -12,7 +11,6 @@ use Http\Adapter\Guzzle6\Client as GuzzleAdapter;
 use ItkDev\AzureKeyVault\KeyVault\VaultSecret;
 use ItkDev\Serviceplatformen\Certificate\AzureKeyVaultCertificateLocator;
 use ItkDev\Serviceplatformen\Request\InvocationContextRequestGenerator;
-use ItkDev\Serviceplatformen\Service\Exception\ServiceException;
 use ItkDev\Serviceplatformen\Service\PersonBaseDataExtendedService;
 
 /**
@@ -90,4 +88,5 @@ class CprService implements CprServiceInterface {
     $response = $this->personBaseDataExtendedService->personLookup($cpr);
     return new CprServiceResult($response);
   }
+
 }

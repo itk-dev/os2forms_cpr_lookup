@@ -52,25 +52,41 @@ class CprChildrenSelectElement extends Select implements NemidElementPersonalInt
   /**
    * The form helper service.
    *
-   * @var FormHelper
+   * @var \Drupal\os2forms_cpr_lookup\Service\FormHelper
    */
   private FormHelper $formHelper;
 
   /**
    * Constructor.
+   *
    * @param array $configuration
-   * @param $plugin_id
-   * @param $plugin_definition
-   * @param LoggerInterface $logger
-   * @param ConfigFactoryInterface $config_factory
-   * @param AccountInterface $current_user
-   * @param EntityTypeManagerInterface $entity_type_manager
-   * @param ElementInfoManagerInterface $element_info
-   * @param WebformElementManagerInterface $element_manager
-   * @param WebformTokenManagerInterface $token_manager
-   * @param WebformLibrariesManagerInterface $libraries_manager
-   * @param AuthProviderService $authProviderService
-   * @param CprServiceInterface $cprService
+   *   The configuration.
+   * @param string $plugin_id
+   *   The plugin id.
+   * @param mixed $plugin_definition
+   *   The plugin definition.
+   * @param \Psr\Log\LoggerInterface $logger
+   *   The logger.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory.
+   * @param \Drupal\Core\Session\AccountInterface $current_user
+   *   The current user.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity typ manager.
+   * @param \Drupal\Core\Render\ElementInfoManagerInterface $element_info
+   *   The element info.
+   * @param \Drupal\webform\Plugin\WebformElementManagerInterface $element_manager
+   *   The element manager.
+   * @param \Drupal\webform\WebformTokenManagerInterface $token_manager
+   *   The token manager.
+   * @param \Drupal\webform\WebformLibrariesManagerInterface $libraries_manager
+   *   The libraries manager.
+   * @param \Drupal\os2web_nemlogin\Service\AuthProviderService $authProviderService
+   *   The auth provider service.
+   * @param \Drupal\os2forms_cpr_lookup\Service\CprServiceInterface $cprService
+   *   The CPR service.
+   * @param \Drupal\os2forms_cpr_lookup\Service\FormHelper $form_helper
+   *   The form helper.
    */
   public function __construct(
     array $configuration,
@@ -130,28 +146,27 @@ class CprChildrenSelectElement extends Select implements NemidElementPersonalInt
    */
   protected function defineDefaultProperties() {
     $properties = [
-        'cpr_output_type' => '',
-        'options' => [],
-      ] + parent::defineDefaultProperties();
+      'cpr_output_type' => '',
+      'options' => [],
+    ] + parent::defineDefaultProperties();
     return $properties;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function form(array $form, FormStateInterface $form_state)
-  {
+  public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
     $form['options']['options']['#required'] = FALSE;
     $form['options']['#access'] = FALSE;
 
-    $form['element']['cpr_output_type'] = array(
+    $form['element']['cpr_output_type'] = [
       '#type' => 'radios',
-      '#options'=> ['cpr' => $this->t('CPR'), 'name' => $this->t('Name')],
+      '#options' => ['cpr' => $this->t('CPR'), 'name' => $this->t('Name')],
       '#title' => $this
         ->t('CPR output type'),
       '#required' => TRUE,
-    );
+    ];
 
     return $form;
   }
@@ -174,33 +189,31 @@ class CprChildrenSelectElement extends Select implements NemidElementPersonalInt
    * {@inheritdoc}
    */
   public function prepare(array &$element, WebformSubmissionInterface $webform_submission = NULL) {
-
   }
 
   /**
    * {@inheritdoc}
    */
-  public function alterForm(array &$element, array &$form, FormStateInterface $form_state)
-  {
-      if ('cpr_children_select_element' === $element['#type']) {
-        // Define form state data.
-        // Making the request to the plugin, and storing the information on the
-        // form, so that it's available on the next element within the same
-        // webform render.
-        if (!$form_state->has(static::FORM_STATE_DATA)) {
-          $plugin = $this->authProviderService->getActivePlugin();
-          $data = $this->formHelper->prepareFormStateCprData($plugin);
-          if ($data) {
-            $form_state->set(static::FORM_STATE_DATA, $data);
-          }
+  public function alterForm(array &$element, array &$form, FormStateInterface $form_state) {
+    if ('cpr_children_select_element' === $element['#type']) {
+      // Define form state data.
+      // Making the request to the plugin, and storing the information on the
+      // form, so that it's available on the next element within the same
+      // webform render.
+      if (!$form_state->has(static::FORM_STATE_DATA)) {
+        $plugin = $this->authProviderService->getActivePlugin();
+        $data = $this->formHelper->prepareFormStateCprData($plugin);
+        if ($data) {
+          $form_state->set(static::FORM_STATE_DATA, $data);
         }
-        $cprData = $form_state->get(static::FORM_STATE_DATA);
+      }
+      $cprData = $form_state->get(static::FORM_STATE_DATA);
 
-        $cprElement = &NestedArray::getValue($form['elements'], $element['#webform_parents']);
-        $cprElement['#options'] = $cprData ? $this->formHelper->setChildSelectOptions($cprData, $element) : [];
+      $cprElement = &NestedArray::getValue($form['elements'], $element['#webform_parents']);
+      $cprElement['#options'] = $cprData ? $this->formHelper->setChildSelectOptions($cprData, $element) : [];
 
-        // Add form element on edit form with form item displaying value.
-        if (substr_compare($form_state->getFormObject()->getFormId(), 'edit_form', -strlen('edit_form')) === 0) {
+      // Add form element on edit form with form item displaying value.
+      if (substr_compare($form_state->getFormObject()->getFormId(), 'edit_form', -strlen('edit_form')) === 0) {
         // Hide the cpr element and insert a form item for displaying the value
         // before the cpr element.
         $cprElement['#access'] = FALSE;
