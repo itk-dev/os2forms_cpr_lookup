@@ -15,7 +15,7 @@ function os2forms_cpr_lookup_form_alter(array &$form, FormStateInterface $form_s
 
   $foundCprElement = false;
   foreach ($elements as $element) {
-    if (array_key_exists('#type', $element) && 'cpr_element' === $element['#type']) {
+    if (is_array($element) && 'cpr_element' === ($element['#type'] ?? NULL)) {
       $foundCprElement = true;
     }
   }
