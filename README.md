@@ -1,6 +1,9 @@
 # OS2Forms CPR Lookup
 
-Query the Danish for CPR register for Drupal Webforms. This module uses the service [SF1520](https://digitaliseringskataloget.dk/integration/sf1520) from Serviceplatformen. Information and documentation can be obtained by following the link.
+Query the Danish for CPR register for Drupal Webforms. This module uses the
+service [SF1520](https://digitaliseringskataloget.dk/integration/sf1520) from
+Serviceplatformen. Information and documentation can be obtained by following
+the link.
 
 ## Installation
 
@@ -59,7 +62,8 @@ other elements filled based on an authenticated users’ data.
 The elements provided:
 
 * CPR Element - Element which queries the Danish CPR register when changed.
-* CPR Name Element - This is populated with the name from the above mentioned query result.
+* CPR Name Element - This is populated with the name from the above mentioned
+  query result.
 * CPR Address Element - This is populated with the address from the result.
 * CPR Street Element - This is filled with the name of the street from the result.
 * CPR House Number Element - This is filled with the house number from the result.
@@ -70,14 +74,17 @@ The elements provided:
 
 ## Coding standards
 
-Check coding standards (run `composer install` to install the required tools):
+```sh
+docker run --rm --interactive --tty --volume ${PWD}:/app itkdev/php7.4-fpm:latest composer install
+docker run --rm --interactive --tty --volume ${PWD}:/app itkdev/php7.4-fpm:latest composer coding-standards-check
 
-```shell
-composer coding-standards-check
+docker run --rm --interactive --tty --volume ${PWD}:/app node:18 yarn --cwd /app install
+docker run --rm --interactive --tty --volume ${PWD}:/app node:18 yarn --cwd /app coding-standards-check
 ```
 
-Apply coding standards:
+## Code analysis
 
-```shell
-composer coding-standards-apply
+```sh
+docker run --rm --interactive --tty --volume ${PWD}:/app itkdev/php7.4-fpm:latest composer install
+docker run --rm --interactive --tty --volume ${PWD}:/app itkdev/php7.4-fpm:latest composer code-analysis
 ```
