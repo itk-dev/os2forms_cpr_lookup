@@ -19,7 +19,7 @@ class CprHouseNumberElement extends CprLookupElement implements NemidElementPers
   /**
    * {@inheritdoc}
    */
-  public function getPrepopulateFieldFieldKey() {
+  public function getPrepopulateFieldFieldKey(array &$element) {
     return 'house_number';
   }
 

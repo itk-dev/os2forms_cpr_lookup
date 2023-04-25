@@ -100,7 +100,7 @@ abstract class CprLookupElement extends NemidElementBase {
    * {@inheritdoc}
    */
   public function handleElementPrepopulate(array &$element, FormStateInterface &$form_state) {
-    $prepopulateKey = $this->getPrepopulateFieldFieldKey();
+    $prepopulateKey = $this->getPrepopulateFieldFieldKey($element);
 
     // Fetch value from cpr lookup.
     $data = NULL;
