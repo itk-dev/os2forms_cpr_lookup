@@ -19,7 +19,7 @@ class CprStreetElement extends CprLookupElement implements NemidElementPersonalI
   /**
    * {@inheritdoc}
    */
-  public function getPrepopulateFieldFieldKey() {
+  public function getPrepopulateFieldFieldKey(array &$element) {
     return 'street_name';
   }
 

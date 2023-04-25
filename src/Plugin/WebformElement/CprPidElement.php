@@ -19,7 +19,7 @@ class CprPidElement extends CprLookupElement implements NemidElementPersonalInte
   /**
    * {@inheritdoc}
    */
-  public function getPrepopulateFieldFieldKey() {
+  public function getPrepopulateFieldFieldKey(array &$element) {
     return 'pid';
   }
 

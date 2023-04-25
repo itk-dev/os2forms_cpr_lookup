@@ -19,7 +19,7 @@ class CprFloorElement extends CprLookupElement implements NemidElementPersonalIn
   /**
    * {@inheritdoc}
    */
-  public function getPrepopulateFieldFieldKey() {
+  public function getPrepopulateFieldFieldKey(array &$element) {
     return 'floor';
   }
 
