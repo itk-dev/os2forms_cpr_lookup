@@ -59,19 +59,16 @@ class CprService implements CprServiceInterface {
       $config->get('azure_key_vault_secret_version')
     );
 
-    $pathToWsdl = $config->get('service_contract');
-
-    $options = [
-      'local_cert' => $certificateLocator->getAbsolutePathToCertificate(),
-      'passphrase' => $certificateLocator->getPassphrase(),
-      'location' => $config->get('service_endpoint'),
-
-      // We want relationer.barn to always be a list.
-      // @see https://www.php.net/manual/en/soapclient.construct.php#soapclient.construct.options.features
-      'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
+    $soapClientOptions = [
+      'wsdl' => $config->get('service_contract'),
+      'certificate_locator' => $certificateLocator,
+      'options' => [
+        'location' => $config->get('service_endpoint'),
+        // We want relationer.barn to always be a list.
+        // @see https://www.php.net/manual/en/soapclient.construct.php#soapclient.construct.options.features
+        'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
+      ],
     ];
-
-    $soapClient = new \SoapClient($pathToWsdl, $options);
 
     $requestGenerator = new InvocationContextRequestGenerator(
       $config->get('service_agreement_uuid'),
@@ -80,7 +77,7 @@ class CprService implements CprServiceInterface {
       $config->get('user_uuid')
     );
 
-    $this->personBaseDataExtendedService = new PersonBaseDataExtendedService($soapClient, $requestGenerator);
+    $this->personBaseDataExtendedService = new PersonBaseDataExtendedService($soapClientOptions, $requestGenerator);
   }
 
   /**
